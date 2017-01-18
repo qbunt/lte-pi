@@ -1,13 +1,10 @@
 [Unit]
 Description=Start at&t aircard connection
-Requires=systemd-networkd.socket
-After=systemd-networkd.socket
-ExecStartPre=/usr/lib/systemd/systemd-networkd-wait-online --interface=wwan0
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/aircard.sh
-ExecStop=/usr/bin/aircard.sh
+ExecStart=/usr/bin/aircard.sh start
+ExecStart=/usr/bin/aircard.sh stop
 
 [Install]
 WantedBy=multi-user.target

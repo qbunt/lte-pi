@@ -2,6 +2,7 @@
 
 function start {
     # starts mbim services presumably via systemd
+    echo "timing out for network card to come up..."
     mbim-network /dev/cdc-wdm0 start
     echo "mobile card started..."
     ifconfig wwan0 up
@@ -18,11 +19,34 @@ function stop {
     echo "att card stopped and disconnected"
 }
 
-if [ $1 = "start"]; then
-    start
-elif [ $1 "stop"]; then
+function check_card {
+    file="/sys/class/net/wwan0"
+    if [ -h "$file" ]
+    then
+        echo "$file found."
+        start
+    else
+        echo "$file not found."
+        sleep 2
+        check_card
+    fi
+}
+
+case "$1" in
+'start')
+    echo "starting application"
+    check_card
+    ;;
+'stop')
+    echo "stopping application"
     stop
-else
-	echo "assuming you meant start"
-	start
-fi
+;;
+'restart')
+    stop
+    echo "restarting aircard"
+    start
+;;
+*)
+    echo $"Usage: $0 {start|stop|restart}"
+    exit 1
+esac
