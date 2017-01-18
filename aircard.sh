@@ -2,13 +2,13 @@
 
 function start {
     # starts mbim services presumably via systemd
-    echo "timing out for network card to come up..."
+    echo "waiting for to come up..."
     mbim-network /dev/cdc-wdm0 start
-    echo "mobile card started..."
+    echo "card is up and started..."
     ifconfig wwan0 up
-    echo "wwan0 has upped..."
+    echo "ifconfig wwan0 has upped..."
     dhclient wwan0
-    echo "att card started and connected!"
+    echo "card configured, started and connected"
 }
 
 function stop {
@@ -34,16 +34,16 @@ function check_card {
 
 case "$1" in
 'start')
-    echo "starting application"
+    echo "starting card if up..."
     check_card
     ;;
 'stop')
-    echo "stopping application"
+    echo "stopping card..."
     stop
 ;;
 'restart')
     stop
-    echo "restarting aircard"
+    echo "restarting aircard..."
     start
 ;;
 *)

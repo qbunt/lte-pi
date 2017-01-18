@@ -2,9 +2,9 @@
 Description=Start at&t aircard connection
 
 [Service]
-Type=oneshot
 ExecStart=/usr/bin/aircard.sh start
 ExecStart=/usr/bin/aircard.sh stop
+RemainAfterExit=true
 
 [Install]
 WantedBy=multi-user.target

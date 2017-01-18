@@ -15,14 +15,14 @@ then
     # run a repo update
     sudo apt-get update
     # install mbim
-    sudo apt-get install libmbim-utils;
+    sudo apt-get -y install libmbim-utils;
     echo "mbim-utils install completed..."
 fi
 
 echo "adding mbim-network configuration..."
 # check for existing of the file
 file="/etc/mbim-network.conf"
-if [ -h "$file" ]
+if [ -f "$file" ]
 then
     # file HAS been found at location
 	echo "$file interface is up, skipping to start..."
@@ -46,6 +46,6 @@ else
 fi
 
 echo "aircard install complete..."
-echo "aircard service started and enabled, verify LTE card has connected, then reboot"
+echo "aircard service started and enabled, verify LTE card has connected or reboot to connect automatically"
 
 exit
