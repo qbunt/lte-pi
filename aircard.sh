@@ -1,32 +1,28 @@
 #!/usr/bin/env bash
-sudo -v
 
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+function start {
+    # starts mbim services presumably via systemd
+    mbim-network /dev/cdc-wdm0 start
+    echo "mobile card started..."
+    ifconfig wwan0 up
+    echo "wwan0 has upped..."
+    dhclient wwan0
+    echo "att card started and connected!"
+}
 
-sudo apt-get update
+function stop {
+    # stops mbim services presumably via systemd
+    ifconfig wwan0 down
+    echo "wwan0 has downed..."
+    mbim-network /dev/cdc-wdm0 stop
+    echo "att card stopped and disconnected"
+}
 
-if [ $(dpkg-query -W -f='${Status}' libmbim-utils 2>/dev/null | grep -c "ok installed") -eq 0 ];
-then
-    echo "installing mbim-utils..."
-    apt-get install libmbim-utils;
-    echo "mbim-utils install completed..."
-fi
-
-sudo su
-
-file="/etc/mbim-network.conf"
-if [ -f "$file" ]
-then
-	echo "$file found, skipping to start..."
+if [ $1 = "start"]; then
+    start
+elif [ $1 "stop"]; then
+    stop
 else
-	echo "$file not found, generating..."
-	echo "APN=Broadband" > /etc/mbim-network.conf
+	echo "assuming you meant start"
+	start
 fi
-
-mbim-network /dev/cdc-wdm0 start
-echo "mobile card started..."
-ifconfig wwan0 up
-echo "wwan0 has upped..."
-dhclient wwan0
-echo "att card started and connected"
-
