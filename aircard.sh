@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 function start {
-    # starts mbim services presumably via systemd
-    echo "waiting for to come up..."
+    # starts mbim services via systemd
     mbim-network /dev/cdc-wdm0 start
     echo "card is up and started..."
     ifconfig wwan0 up
@@ -12,21 +11,22 @@ function start {
 }
 
 function stop {
-    # stops mbim services presumably via systemd
+    # stops mbim services via systemd
     ifconfig wwan0 down
-    echo "wwan0 has downed..."
+    echo "wwan0 is downed..."
     mbim-network /dev/cdc-wdm0 stop
-    echo "att card stopped and disconnected"
+    echo "lte card stopped and disconnected"
 }
 
 function check_card {
+    # checks for wwan0 interface symlink listed in the file system, loops until that file can be found
     file="/sys/class/net/wwan0"
     if [ -h "$file" ]
     then
-        echo "$file found."
+        echo "wwan0 found, starting..."
         start
     else
-        echo "$file not found."
+        echo "wwan0 not available..."
         sleep 2
         check_card
     fi
@@ -34,7 +34,7 @@ function check_card {
 
 case "$1" in
 'start')
-    echo "starting card if up..."
+    echo "checking for card interface..."
     check_card
     ;;
 'stop')
@@ -44,6 +44,7 @@ case "$1" in
 'restart')
     stop
     echo "restarting aircard..."
+    sleep 10
     start
 ;;
 *)

@@ -20,25 +20,25 @@ then
 fi
 
 echo "adding mbim-network configuration..."
-# check for existing of the file
+# check for existence of the file
 file="/etc/mbim-network.conf"
 if [ -f "$file" ]
 then
-    # file HAS been found at location
+    # file found, no config needed
 	echo "$file interface is up, skipping to start..."
 else
-    # file HAS NOT been found at location
+    # file NOT found, copying config
 	echo "$file interface is not up, writing..."
 	sudo cp mbim-network.conf /etc/mbim-network.conf
 	sudo chown root:root /etc/mbim-network.conf
 fi
 
-# enable the aircard service with systemd
+# enable the aircard service
 sudo systemctl enable aircard.service
-# kick start aircard service with systemd
 file="/sys/class/net/wwan0"
 if [ -h "$file" ]
 then
+    # kick start aircard service with systemd
     echo "card found, starting service..."
     sudo systemctl start aircard.service
 else

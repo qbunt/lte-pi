@@ -27,3 +27,20 @@ sudo systemctl start aircard.service
 ```
 sudo systemctl stop aircard.service
 ```
+
+## If systemctl isn't available
+```
+sudo /usr/bin/aircard.sh start
+```
+```
+sudo /usr/bin/aircard.sh stop
+```
+```
+sudo /usr/bin/aircard.sh restart
+```
+
+## License
+UNLICENSED
+
+## Contributors
+j. bunting
