@@ -3,7 +3,7 @@ Description=Start at&t aircard connection
 
 [Service]
 ExecStart=/usr/bin/aircard.sh start
-ExecStart=/usr/bin/aircard.sh stop
+ExecStop=/usr/bin/aircard.sh stop
 RemainAfterExit=true
 
 [Install]
