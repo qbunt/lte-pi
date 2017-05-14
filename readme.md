@@ -1,6 +1,9 @@
 # lte-pi
-
 A simple systemd unit file and service for the AT&T aircard 340U LTE card
+
+
+<img src="example.jpg" alt="example of card in action" width="400px">
+
 
 ## Install
 Clone the repo (or copy it via flash drive)
@@ -40,7 +43,7 @@ sudo /usr/bin/aircard.sh restart
 ```
 
 ## License
-UNLICENSED
+MIT
 
 ## Contributors
-j. bunting
+qbunt
