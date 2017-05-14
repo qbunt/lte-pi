@@ -43,7 +43,7 @@ sudo /usr/bin/aircard.sh restart
 ```
 
 ## License
-[MIT]('./LICENSE')
+[MIT](LICENSE)
 
 ## Contributors
 qbunt
